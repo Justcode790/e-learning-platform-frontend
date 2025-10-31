@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* App base styles */
+:root {
+  color-scheme: light dark;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+}
+
+
