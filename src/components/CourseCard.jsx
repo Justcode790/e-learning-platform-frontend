@@ -18,6 +18,8 @@ export default function CourseCard({ course }) {
   }, [user, course])
   
   const showContinueLearning = user && isPurchased
+  // console.log(course.thumbnail);
+  console.log('Course Data:', course)
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl flex flex-col border border-gray-200 dark:border-gray-700">
@@ -27,7 +29,7 @@ export default function CourseCard({ course }) {
       >
         <img
           className="w-full h-48 object-cover"
-          src={course.thumbnailUrl || 'https://res.cloudinary.com/debc5aznw/image/upload/v1761926651/React_Foundamental_ersrpd.png'}
+          src={course.thumbnailUrl || "https://res.cloudinary.com/debc5aznw/image/upload/v1761926651/React_Foundamental_ersrpd.png"}
           alt={course.title}
         />
       </Link>

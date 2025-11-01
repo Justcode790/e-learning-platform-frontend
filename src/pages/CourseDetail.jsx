@@ -54,6 +54,7 @@ export default function CourseDetail() {
       // Changed user.id to user._id to match the ID format 
       // used in the useEffect enrollment check.
       const { data } = await api.post(`/students/${user._id}/enroll/${id}`);
+
       
       if (data.success) {
         alert('🎉 Course purchased successfully!');
@@ -138,8 +139,8 @@ export default function CourseDetail() {
             {/* Course Image */}
             <img
               className="w-full h-56 object-cover"
-              // src={course.thumbnailUrl || './React Foundamental.png'}
-              src={'https://res.cloudinary.com/debc5aznw/image/upload/v1761926651/React_Foundamental_ersrpd.png'}
+              src={course.thumbnailUrl || './React Foundamental.png'}
+              // src={'https://res.cloudinary.com/debc5aznw/image/upload/v1761926651/React_Foundamental_ersrpd.png'}
               alt={course.title}
             />
 
