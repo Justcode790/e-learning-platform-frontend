@@ -3,7 +3,9 @@ import Landing from './pages/Landing.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import About from './pages/About.jsx'
-import CoursesPage from './pages/CoursesPage.jsx' // <-- IMPORT NEW PAGE
+import CoursesPage from './pages/CoursesPage.jsx'
+import ManageCourse from './pages/ManageCourse.jsx';
+import EditCourse from './pages/EditCourse.jsx'
 import TeacherDashboard from './pages/TeacherDashboard.jsx'
 import StudentDashboard from './pages/StudentDashboard.jsx'
 import CreateCourse from './pages/CreateCourse.jsx'
@@ -46,12 +48,27 @@ export default function App() {
                 </ProtectedRoute>
               }
             />
-
+            <Route
+              path="/teacher/manage-course/:id"
+              element={
+                <ProtectedRoute roles={['teacher']}>
+                  <ManageCourse />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/create-course"
               element={
                 <ProtectedRoute roles={['teacher']}>
                   <CreateCourse />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/teacher/edit-course/:id"
+              element={
+                <ProtectedRoute roles={['teacher']}>
+                  <EditCourse />
                 </ProtectedRoute>
               }
             />

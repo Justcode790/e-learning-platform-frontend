@@ -17,8 +17,9 @@ export default function TeacherDashboard() {
   async function getTeacherCourses() {
     setLoading(true);
     try {
-      const { data } = await api.get('/courses/my-courses'); // ✅ new route
-      setCourses(data);
+      const { data } = await api.get('/courses/my-courses');
+      // console.log(data);
+      setCourses(data.courses);
     } catch (error) {
       console.error("Failed to fetch teacher courses:", error);
       setCourses([]);
@@ -50,7 +51,7 @@ export default function TeacherDashboard() {
       <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-5">
         Your Courses
       </h2>
-
+    {console.log(courses)}
       {courses.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((c) => (
