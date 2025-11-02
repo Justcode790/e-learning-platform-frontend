@@ -19,7 +19,7 @@ export default function CourseCard({ course }) {
   
   const showContinueLearning = user && isPurchased
   // console.log(course.thumbnail);
-  console.log('Course Data:', course)
+  // console.log('Course Data:', course)
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl flex flex-col border border-gray-200 dark:border-gray-700">

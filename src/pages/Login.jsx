@@ -5,9 +5,9 @@ import { Zap, AlertCircle } from 'lucide-react'
 
 export default function Login() {
   const { login } = useAuth()
-  const [email, setEmail] = useState('amit@teacher.com')
-  const [password, setPassword] = useState('Teacher@123')
-  const [role, setRole] = useState('teacher')
+  const [email, setEmail] = useState('a@gmail.com')
+  const [password, setPassword] = useState('123')
+  const [role, setRole] = useState('student')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false) // Added for professional UX
   const navigate = useNavigate()

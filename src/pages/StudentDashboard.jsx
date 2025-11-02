@@ -36,7 +36,9 @@ export default function StudentDashboard() {
       try {
         setLoading(true)
         const res = await api.get(`/students/${user.id}`)
-        setProfile(res.data)
+        // console.log(res.data.student);
+        const data = res.data;
+        setProfile(data.student);
       } catch (error) {
         console.error("Failed to fetch student profile:", error)
       } finally {
@@ -59,7 +61,7 @@ export default function StudentDashboard() {
       <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-5">
         Your Enrolled Courses
       </h2>
-
+    {/* {console.log(profile.student)} */}
       {profile.enrolledCourses && profile.enrolledCourses.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {profile.enrolledCourses?.map((c) => (
@@ -95,7 +97,7 @@ export default function StudentDashboard() {
             Explore our course library to start learning.
           </p>
           <Link
-            to="/"
+            to="/courses"
             className="inline-flex items-center justify-center rounded-lg bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-teal-700"
           >
             Browse Courses

@@ -34,10 +34,24 @@ export function AuthProvider({ children }) {
 
   // ✅ Login user
   const login = async (email, password, role) => {
-    const { data } = await api.post('/auth/login', { email, password, role });
-    setToken(data.token);
-    setUser(data.user);
-  };
+    try {
+      const { data } = await api.post('/auth/login', { email, password, role })
+      console.log('Login API Response:', data)
+
+      // Check if token is present (not just success)
+      if (data.token) {
+        localStorage.setItem('token', data.token)
+        setUser(data.user)
+        return true
+      } else {
+        throw new Error('No token in response')
+      }
+    } catch (err) {
+      console.error('Login error:', err)
+      return false
+    }
+  }
+
 
   // ✅ Register user
   const register = async (name, email, password, role) => {
