@@ -77,7 +77,8 @@ export default function CreateCourse() {
         lessons: uploadedLessons,
       });
 
-      navigate(`/courses/${courseRes.course._id}`);
+      // navigate(`/courses/${courseRes.course._id}`);
+      navigate(`/teacher`);
     } catch (error) {
       console.error('Error creating course:', error);
       setError('Failed to create course. Please try again.');
