@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
+import GlobalLoader from "./components/GlobalLoader";
 import Landing from './pages/Landing.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
@@ -20,6 +21,7 @@ import Wishlist from './pages/Wishlist.jsx'
 export default function App() {
   return (
     <div className="flex min-h-screen flex-col bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+      <GlobalLoader />
       <Navbar/>
       <div className="flex flex-1">
         <main className="w-full flex-1 overflow-y-auto bg-gray-50 p-6 dark:bg-gray-950">
