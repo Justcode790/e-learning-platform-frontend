@@ -4,17 +4,14 @@ import { Zap, Facebook, Twitter, Github, Linkedin } from 'lucide-react'
 
 export default function Footer() {
   return (
-    // Use a dark background by default for a "premium" feel
     <footer className="bg-slate-900 text-gray-400 p-8 md:py-12">
       <div className="mx-auto max-w-7xl">
         
-        {/* Main 4-column grid */}
         <div className="grid grid-cols-1 gap-12 md:grid-cols-4">
           
-          {/* Column 1: Logo & Socials */}
           <div className="md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <Zap className="h-7 w-7 text-teal-500" />
+              {/* <Zap className="h-7 w-7 text-teal-500" /> */}
               <span className="text-xl font-bold text-white">
                 Learnify
               </span>

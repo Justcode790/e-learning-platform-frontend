@@ -1,29 +1,81 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import api from '../api/api.js'
 
 export default function CourseCard({ course }) {
   const { user } = useAuth()
   const [isPurchased, setIsPurchased] = useState(false)
+  const [inWishlist, setInWishlist] = useState(false)
+  const [avgRating, setAvgRating] = useState(null)
+  const [reviewCount, setReviewCount] = useState(0)
+
+
+
+  
 
   useEffect(() => {
-    if (user && user.role === 'student' && user.enrolledCourses) {
-      const purchased = user.enrolledCourses.some(
-        (id) => id.toString() === course._id.toString()
-      )
-      setIsPurchased(purchased)
+    if (user?.role === 'student' && Array.isArray(user.enrolledCourses)) {
+      setIsPurchased(user.enrolledCourses.some(id => id.toString() === course._id.toString()))
     } else {
       setIsPurchased(false)
     }
   }, [user, course])
-  
+
+  useEffect(() => {
+    const checkWishlist = async () => {
+      try {
+        if (!user || user.role !== 'student') return
+        const res = await api.get(`/students/${user.id}/wishlist`)
+        const list = res.data?.wishlist || []
+        setInWishlist(list.some(c => c._id === course._id))
+      } catch (e) {
+        console.error('Wishlist fetch failed:', e)
+      }
+    }
+    checkWishlist()
+  }, [user?.id, course._id])
+
+  useEffect(() => {
+    const loadRating = async () => {
+      try {
+        const { data } = await api.get(`/courses/${course._id}`)
+        const feedback = data?.feedback || []
+        if (feedback.length > 0) {
+          const sum = feedback.reduce((s, f) => s + (f.rating || 0), 0)
+          setAvgRating(Math.round((sum / feedback.length) * 10) / 10)
+          setReviewCount(feedback.length)
+        } else {
+          setAvgRating(null)
+          setReviewCount(0)
+        }
+      } catch (err) {
+        console.error('Failed to load ratings:', err)
+      }
+    }
+    loadRating()
+  }, [course._id])
+
+  const toggleWishlist = async () => {
+    if (!user || user.role !== 'student') return
+    try {
+      if (inWishlist) {
+        await api.delete(`/students/${user.id}/wishlist/${course._id}`)
+        setInWishlist(false)
+      } else {
+        await api.post(`/students/${user.id}/wishlist/${course._id}`)
+        setInWishlist(true)
+      }
+    } catch (e) {
+      console.error('Wishlist update failed', e)
+    }
+  }
+
   const showContinueLearning = user && isPurchased
-  // console.log(course.thumbnail);
-  // console.log('Course Data:', course)
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl flex flex-col border border-gray-200 dark:border-gray-700">
-      <Link 
+      <Link
         to={showContinueLearning ? `/courses/${course._id}` : `/courses/${course._id}/details`}
         aria-label={`View details for ${course.title}`}
       >
@@ -43,14 +95,35 @@ export default function CourseCard({ course }) {
           {course.title}
         </h3>
 
+        {avgRating !== null && (
+          <div className="mb-2 text-sm text-gray-600 dark:text-gray-300">
+            <span className="mr-2 text-yellow-400">★</span>
+            <span className="font-medium">{avgRating}</span>
+            <span className="ml-2">({reviewCount} reviews)</span>
+          </div>
+        )}
+
         <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 flex-grow line-clamp-3">
           {course.description}
         </p>
 
-        <div className="mb-5">
+        <div className="mb-5 flex items-center justify-between gap-3">
           <span className="text-3xl font-bold text-gray-900 dark:text-white">
             ${course.price ?? 0}
           </span>
+          {user && user.role === 'student' && (
+            <button
+              type="button"
+              onClick={toggleWishlist}
+              aria-label={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+              className={`rounded-md border px-3 py-2 text-sm font-medium transition ${inWishlist
+                ? 'border-pink-600 text-pink-600 dark:border-pink-400 dark:text-pink-400'
+                : 'border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800'
+                }`}
+            >
+              {inWishlist ? '♥ Wishlisted' : '♡ Add to Wishlist'}
+            </button>
+          )}
         </div>
 
         {showContinueLearning ? (

@@ -29,24 +29,37 @@ export default function StudentDashboard() {
   const { user } = useAuth()
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [recommended, setRecommended] = useState([])
 
-  useEffect(() => {
-    if (!user) return
-    async function getData() {
-      try {
-        setLoading(true)
-        const res = await api.get(`/students/${user.id}`)
-        // console.log(res.data.student);
-        const data = res.data;
-        setProfile(data.student);
-      } catch (error) {
-        console.error("Failed to fetch student profile:", error)
-      } finally {
-        setLoading(false)
-      }
+useEffect(() => {
+  if (!user) return;
+  async function getData() {
+    try {
+      setLoading(true);
+      const res = await api.get(`/courses/my-courses`);
+      const { courses } = res.data;
+      console.log(res);
+      // setProfile({ ...user, enrolledCourses: courses });
+      setProfile({ ...user, enrolledCourses: courses });
+    } catch (error) {
+      console.error("Failed to fetch student profile:", error);
+    } finally {
+      setLoading(false);
     }
-    getData()
-  }, [user])
+  }
+  getData();
+  // Load recommendations
+  async function getRecommended() {
+    try {
+      const res = await api.get(`/courses/recommended/${user.id}`)
+      setRecommended(res.data?.courses || [])
+    } catch (e) {
+      console.error('Failed to fetch recommended courses', e)
+    }
+  }
+  getRecommended()
+}, [user]);
+
 
   if (loading) return <DashboardLoadingSkeleton />
 
@@ -104,6 +117,27 @@ export default function StudentDashboard() {
           </Link>
         </div>
       )}
+
+      <div className="mt-10">
+        <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-5">
+          Recommended for You
+        </h2>
+        {recommended.length === 0 ? (
+          <p className="text-gray-600 dark:text-gray-300">No recommendations yet.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {recommended.map((c) => (
+              <div key={c._id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-bold mb-1 line-clamp-2">{c.title}</h3>
+                <p className="text-sm text-gray-500 mb-4">{c.instructor?.name}</p>
+                <Link to={`/courses/${c._id}/details`} className="inline-flex items-center justify-center rounded-lg bg-teal-600 px-4 py-2 text-sm font-medium text-white hover:bg-teal-700">
+                  View Details
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

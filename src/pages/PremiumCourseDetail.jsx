@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api from '../api/api.js'
 import LessonPlayer from '../components/LessonPlayer.jsx'
-import FeedbackForm from '../components/FeedbackForm.jsx'
+import CourseFeedbackForm from '../components/CourseFeedbackForm.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
 import { PlayCircle, CheckCircle, Lock, ArrowLeft, ArrowRight } from 'lucide-react'
 
@@ -118,7 +118,7 @@ export default function PremiumCourseDetail() {
                 <p className="text-sm text-gray-600 dark:text-gray-300 mb-5">
                   You've completed the course! Help us and other students by leaving your feedback.
                 </p>
-                <FeedbackForm onSubmit={async ({ rating, comment }) => {
+                <CourseFeedbackForm onSubmit={async ({ rating, comment }) => {
                   await api.post(`/courses/${id}/feedback`, { rating, comment })
                   alert('Thanks for your feedback!')
                 }} />

@@ -6,15 +6,22 @@ import { Search, Filter } from 'lucide-react'
 export default function CoursesPage() {
   const [courses, setCourses] = useState([])
   const [search, setSearch] = useState('')
+  const [debouncedSearch, setDebouncedSearch] = useState('')
   const [category, setCategory] = useState('')
+  const [price, setPrice] = useState('')
   const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(search), 500)
+    return () => clearTimeout(t)
+  }, [search])
 
   useEffect(() => {
     async function getData() {
       setLoading(true)
       try {
         const { data } = await api.get('/courses', {
-          params: { search, category }
+          params: { search: debouncedSearch, category, price }
         })
         setCourses(data)
       } catch (error) {
@@ -25,7 +32,7 @@ export default function CoursesPage() {
       }
     }
     getData();
-  }, [search, category])
+  }, [debouncedSearch, category, price])
 
   return (
     <div className="bg-gray-50 dark:bg-gray-950 min-h-screen">
@@ -64,6 +71,19 @@ export default function CoursesPage() {
                 <option value="Backend">Backend</option>
                 <option value="Data">Data</option>
                 <option value="General">General</option>
+              </select>
+            </div>
+
+            <div className="relative w-full md:w-auto">
+              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <select
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="w-full md:w-56 rounded-lg border border-gray-300 dark:border-gray-700 py-3 pr-10 pl-12 text-gray-900 dark:text-white bg-transparent shadow-sm focus:ring-2 focus:ring-inset focus:ring-teal-500 appearance-none"
+              >
+                <option value="">All Prices</option>
+                <option value="free">Free</option>
+                <option value="paid">Paid</option>
               </select>
             </div>
           </div>

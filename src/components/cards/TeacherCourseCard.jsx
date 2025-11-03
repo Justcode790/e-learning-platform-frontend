@@ -5,7 +5,7 @@ import { Edit, Users, BookOpen } from 'lucide-react'
 export default function TeacherCourseCard({ course }) {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden flex flex-col border border-gray-200 dark:border-gray-700 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
-    {console.log("teacher coursecar: ", course)}
+    {/* {console.log("teacher coursecar: ", course)} */}
       {/* --- Thumbnail --- */}
       <img
         className="w-full h-48 object-cover"

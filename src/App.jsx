@@ -14,15 +14,14 @@ import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import CourseDetail from './pages/CourseDetail.jsx'
+import MyCourses from './pages/MyCourses.jsx'
+import Wishlist from './pages/Wishlist.jsx'
 
 export default function App() {
   return (
     <div className="flex min-h-screen flex-col bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100">
-      
-      <Navbar />
-
+      <Navbar/>
       <div className="flex flex-1">
-        
         <main className="w-full flex-1 overflow-y-auto bg-gray-50 p-6 dark:bg-gray-950">
           <Routes>
             <Route path="/" element={<Landing />} />
@@ -45,6 +44,22 @@ export default function App() {
               element={
                 <ProtectedRoute roles={['student']}>
                   <StudentDashboard />
+                </ProtectedRoute>
+              }
+            />
+            {/* <Route
+              path="/my-courses"
+              element={
+                <ProtectedRoute roles={['student']}>
+                  <MyCourses />
+                </ProtectedRoute>
+              }
+            /> */}
+            <Route
+              path="/wishlist"
+              element={
+                <ProtectedRoute roles={['student']}>
+                  <Wishlist />
                 </ProtectedRoute>
               }
             />

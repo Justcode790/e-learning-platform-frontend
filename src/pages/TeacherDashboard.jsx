@@ -31,6 +31,7 @@ export default function TeacherDashboard() {
   getTeacherCourses();
 }, [user]);
 
+
   if (loading) return <DashboardLoadingSkeleton />
 
   return (
