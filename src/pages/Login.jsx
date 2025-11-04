@@ -6,7 +6,7 @@ import { Zap, AlertCircle } from 'lucide-react'
 export default function Login() {
   const { login } = useAuth()
   const [email, setEmail] = useState('yashir@gmail.com ')
-  const [password, setPassword] = useState('123')
+  const [password, setPassword] = useState('123456')
   const [role, setRole] = useState('teacher')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false) // Added for professional UX
@@ -137,7 +137,7 @@ export default function Login() {
           
           <b>
             email: yashir@gmail.com <br />
-          password : 123 
+          password : 123456
           </b>
         </div>
         </div>
